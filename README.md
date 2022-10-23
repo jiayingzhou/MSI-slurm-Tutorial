@@ -37,3 +37,30 @@ cd /panfs/roc/msisoft/anaconda
 And find your specified conda path, source the path in your script.
 
 6. You should be able to run your job. 
+
+
+## Notice
+
+1. You might need to clean your slurm error/ output file regularly. I use
+```
+find  . -name 'slurm*' -exec rm {} \;
+```
+to clean all files starting with "slurm". Be careful do not name any file starting with "slurm" if you clean slurm output in this way.
+
+2. If you frequently check some path, you could export your job name by editing in ~/.bashrc
+
+```
+vi ~/.bashrc
+```
+For example, you could add a line
+```
+export JOB=/scratch.global/xxxx0000
+```
+After you save your change, type
+```
+source ~/.bashrc
+```
+Then you should be able to go to "scratch.global/xxxx0000" by
+```
+cd $JOB
+```
