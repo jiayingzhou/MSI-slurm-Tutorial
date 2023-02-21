@@ -1,26 +1,27 @@
 # MSI-slurm-Tutorial
 
-This doc is for the convenience of running Slurm jobs on MSI platform in University of Minnesota.
+This document provides guidance on running Slurm jobs on the MSI platform at the University of Minnesota for convenience.
 
 What you need: 
 
-1. Your MSI account with specific cluster, e.g., xxxx0000@mangi.msi.umn.edu. “Xxxx” is your UMN x500, and mangi is the cluster name. You can choose other clusters, see https://www.msi.umn.edu/partitions .
+Requirements:
 
-2.Your project as well as a slurm script. A slurm script example can be found in https://www.msi.umn.edu/content/job-submission-and-scheduling-slurm. I will recommend my slurm script run.sh.
+A MSI account for a specific cluster, for instance, xxxx0000@mangi.msi.umn.edu. "Xxxx" refers to your UMN x500, and "mangi" is the cluster name. You may select other clusters, refer to https://www.msi.umn.edu/partitions.
 
-To run a job in MSI using slurm, you will need:
+Your project and a slurm script. You can find an example of a slurm script at https://www.msi.umn.edu/content/job-submission-and-scheduling-slurm. I recommend using my slurm script, run.sh.
+To run a job on MSI using slurm, you need to:
 
-1. Login your MSI account by typing
+1. Log in to your MSI account by typing:
 ```
 ssh xxxx0000@mangi.msi.umn.edu
 ```
 
-2. Upload your project to the MSI:
+2. Upload your project to MSI:
 ```
 scp -r your_local_project_path xxxx0000@mangi.msi.umn.edu:your_msi_project_path
 ```
 
-3. Build conda environment and install packages, to install pytorch correctly, I use mamba to install pytorch packages. A very short tutorial is https://www.youtube.com/watch?v=N30h6WPr09M&list=PLKCHj1lyf_OLPvyUG_EpzDv61aL3FvuHM&index=4&t=222s. For example, I install an environment named pytorch_env, and install pytroch at the cuda version = 11.3. 
+3. Build a conda environment and install packages. To install pytorch correctly, you can use mamba. You can find a brief tutorial at https://www.youtube.com/watch?v=N30h6WPr09M&list=PLKCHj1lyf_OLPvyUG_EpzDv61aL3FvuHM&index=4&t=222s. For example, to install an environment named pytorch_env and install pytorch at the cuda version = 11.3, type:
 ```
 module load mamba
 mamba create -n pytorch_env
@@ -28,26 +29,29 @@ conda activate pytorch
 mamba install pytorch cudatoolkit=11.3 -c pytorch_env
 ```
 
-4. You can then install packages in the conda environment. 
+4. Install packages in the conda environment.
 
-5. To run your job, you need to specify a conda path (as well as the python path). You can specify your conda version by 
+5. To run your job, you need to specify a conda path (as well as the python path). You can specify your conda version by: 
 ```
 cd /panfs/roc/msisoft/anaconda
 ```
-And find your specified conda path, source the path in your script.
+And locate your specified conda path, then source the path in your script.
 
-6. You should be able to run your job. 
+
+6. Run the job. 
 
 
 ## Notice
 
-1. You might need to clean your slurm error/ output file regularly. I use
+1. It is advisable to regularly clean your slurm error/output file. You can use the following command to clean all files starting with "slurm":
 ```
 find  . -name 'slurm*' -exec rm {} \;
 ```
-to clean all files starting with "slurm". Be careful do not name any file starting with "slurm" if you clean slurm output in this way.
+Note that you should not name any file starting with "slurm" if you clean slurm output this way.
 
-2. If you frequently check some path, you could export your job name by editing in ~/.bashrc
+
+
+2. If you frequently check a path, you can export your job name by editing in ~/.bashrc:
 
 ```
 vi ~/.bashrc
@@ -56,7 +60,7 @@ For example, you could add a line
 ```
 export JOB=/scratch.global/xxxx0000
 ```
-After you save your change, type
+Once you save your change, type
 ```
 source ~/.bashrc
 ```
